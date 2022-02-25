@@ -10,6 +10,8 @@ app.use(cors(corsOptions));
 app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
+//Serve static imag or files
+app.use(express.static(__dirname));
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to club management application." });
