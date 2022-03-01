@@ -1,4 +1,4 @@
-const { authJwt } = require("../middlewares");
+const { authJwt, verifyMemberCreate } = require("../middlewares");
 const controller = require("../controllers/member.controller");
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -10,7 +10,23 @@ module.exports = function (app) {
   });
   app.post(
     "/api/member",
-    [authJwt.verifyToken, controller.uploadImg],
+    [
+      authJwt.verifyToken,
+      verifyMemberCreate.checkDuplicateEmailOrPhone,
+      controller.uploadImg,
+    ],
     controller.create
   );
+  app.get("/api/members", [authJwt.verifyToken], controller.findAll);
+  app.get("/api/member/:id", [authJwt.verifyToken], controller.findOne);
+  app.put(
+    "/api/member/:id",
+    [
+      authJwt.verifyToken,
+      verifyMemberCreate.checkDuplicateEmailOrPhone,
+      controller.uploadImg,
+    ],
+    controller.update
+  );
+  app.delete("/api/member/:id", [authJwt.verifyToken], controller.delete);
 };

@@ -40,10 +40,12 @@ exports.signin = (req, res) => {
       expiresIn: 86400,
     });
     res.status(200).send({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      accessToken: token,
+      userData: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+      },
+      token: token,
     });
   });
 };
